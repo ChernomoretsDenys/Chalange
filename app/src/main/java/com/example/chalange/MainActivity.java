@@ -4,7 +4,9 @@ package com.example.chalange;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private ImageView image;
     private Button imageButton, registerButton;
     private CheckBox checkBox;
+    private ConstraintLayout parent;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -55,6 +60,18 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 Toast.makeText(this, "Please agree with our terms", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Registering", Toast.LENGTH_SHORT).show();
+                parent.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 10; i++) {
+                            progressBar.incrementProgressBy(10);
+                            SystemClock.sleep(500);
+                        }
+                    }
+                });
+                thread.start();
             }
         }
     }
@@ -80,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         editPassword = findViewById(R.id.editPassword);
         editRePassword = findViewById(R.id.editRePassword);
         checkBox = findViewById(R.id.checkBox);
+        parent = findViewById(R.id.parent);
+        progressBar = findViewById(R.id.progressBar);
 
 //        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -92,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 //
 //            }
 //        });
+
 
         imageButton.setOnClickListener(this);
 
